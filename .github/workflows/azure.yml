@@ -26,14 +26,14 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_WONDERFUL_DUNE_074744D03 }}
 
       - name: Lowercase the repo name
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
       - name: Build and push container image to registry
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v2
         with:
           push: true
           tags: ghcr.io/${{ env.REPO }}:${{ github.sha }}
