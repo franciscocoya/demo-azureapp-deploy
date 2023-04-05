@@ -52,17 +52,19 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lowercase the repo name and username
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
       - name: Build and push container image to registry
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v4
         with:
           push: true
+          context: .
+          platforms: linux/amd64,linux/arm64
           tags: ghcr.io/${{ env.REPO }}:${{ github.sha }}
-          file: ./Dockerfile
+          #file: ./Dockerfile
 
   deploy:
     permissions:
@@ -70,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Development'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
