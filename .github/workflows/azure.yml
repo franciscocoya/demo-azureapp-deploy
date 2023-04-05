@@ -27,7 +27,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_WONDERFUL_DUNE_074744D03 }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lowercase the repo name
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
